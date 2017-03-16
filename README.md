@@ -1,6 +1,6 @@
 # MicDecode for Unity3D #
 MicDecode is a very basic audio input signal decoder for Unity 3D that can detect the loudness and frequency. Feel free to use these scripts in your own projects.
-**See the [releases tab](https://github.com/JulianSchoenbaechler/MicDecode-Unity/releases) for downloading the newest unity-package of this project!**
+**Check out the [releases tab](https://github.com/JulianSchoenbaechler/MicDecode-Unity/releases) for the newest unity-package of this project!**
 
 
 ## License ##
