@@ -48,7 +48,7 @@ namespace JulianSchoenbaechler.MicDecode
 		private void OnEnable()
 		{
 			// Get serialized references
-			_inputDeviceProp = serializedObject.FindProperty("_inputDevice");
+			_inputDeviceProp = serializedObject.FindProperty("_inputDeviceIndex");
 			_microphoneSampleRateProp = serializedObject.FindProperty("_microphoneSampleRate");
 			_calculationsPerSecondProp = serializedObject.FindProperty("_calculationsPerSecond");
 			_spectrumFFTWindowProp = serializedObject.FindProperty("_spectrumFFTWindow");
@@ -77,10 +77,10 @@ namespace JulianSchoenbaechler.MicDecode
 
 
 			// Input device prop
-			index = Array.IndexOf(Microphone.devices, _inputDeviceProp.stringValue);
+			index = _inputDeviceProp.intValue;
 			index = index < 0 ? 0 : index;
 			
-			_inputDeviceProp.stringValue = Microphone.devices[EditorGUILayout.Popup("Input Device", index, Microphone.devices)];
+			_inputDeviceProp.intValue = EditorGUILayout.Popup("Input Device", index, Microphone.devices);
 			EditorGUILayout.Space();
 
 
@@ -98,7 +98,7 @@ namespace JulianSchoenbaechler.MicDecode
 			EditorGUILayout.Space();
 
 			// Calculations prop
-			EditorGUILayout.IntSlider(_calculationsPerSecondProp, 1, 30);
+			EditorGUILayout.IntSlider(_calculationsPerSecondProp, 0, 30);
 			EditorGUILayout.Space();
 
 

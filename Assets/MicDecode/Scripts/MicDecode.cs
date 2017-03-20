@@ -31,12 +31,14 @@ namespace JulianSchoenbaechler.MicDecode
 		#region Variables
 
 		// Serialized
-		[SerializeField] protected string _inputDevice = null;									// Input device
+		[SerializeField] protected int _inputDeviceIndex = 0;									// Input device index
 		[SerializeField] protected int _microphoneSampleRate;									// Sample rate of the mic in Hz
-		[SerializeField][Range(1, 30)] protected int _calculationsPerSecond = 5;				// Number of calculations per second
+		[SerializeField][Range(0, 30)] protected int _calculationsPerSecond = 5;				// Number of calculations per second
 		[SerializeField] protected FFTWindow _spectrumFFTWindow = FFTWindow.BlackmanHarris;		// The used FFT window
 
 		// Private
+		protected string _inputDevice;
+
 		protected AudioSource _audioSource;
 		protected float[] _outputSamples;
 		protected float[] _spectrum;
@@ -57,6 +59,7 @@ namespace JulianSchoenbaechler.MicDecode
 			_audioSource = GetComponent<AudioSource>();
 
 			// Init the Mic
+			_inputDevice = Microphone.devices[_inputDeviceIndex];
 			_audioSource.loop = true;
 			_audioSource.mute = false;
 
@@ -129,7 +132,8 @@ namespace JulianSchoenbaechler.MicDecode
 			_audioSource.clip = Microphone.Start(_inputDevice, true, 10, 44100);
 
 			// Starting calculations
-			StartCoroutine("Calculate");
+			if(_calculationsPerSecond > 0)
+				StartCoroutine("Calculate");
 
 			if(MicDecodeSettings.debugState != MicDecodeSettings.Debug.Off)
 				Debug.Log("[MicDecode] Started recording from input '" + _inputDevice + "'.");
