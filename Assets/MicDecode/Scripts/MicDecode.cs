@@ -19,6 +19,7 @@
  * If not, see http://www.gnu.org/licenses/.
  */
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -46,6 +47,16 @@ namespace JulianSchoenbaechler.MicDecode
 		protected float _rmsVal;
 		protected float _dbVal;
 		protected float _pitchVal;
+
+		#endregion
+
+		#region Event Declaration(s)
+
+		/// <summary> Calculation finished event handler. </summary>
+		public delegate void CalculationFinishedEventHandler(object sender, EventArgs e);
+
+		/// <summary> Occurs when an automated calculation finished. </summary>
+		public event CalculationFinishedEventHandler CalculationFinishedEvent;
 
 		#endregion
 
@@ -292,6 +303,10 @@ namespace JulianSchoenbaechler.MicDecode
 				// Do calculations
 				CalculateDecibelValue();
 				CalculateFrequency();
+
+				// Raise calculation finished event
+				if(CalculationFinishedEvent != null)
+					CalculationFinishedEvent(this, EventArgs.Empty);
 
 				if((MicDecodeSettings.debugState == MicDecodeSettings.Debug.Calculations) ||
 					(MicDecodeSettings.debugState == MicDecodeSettings.Debug.All))
